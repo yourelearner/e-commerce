@@ -88,7 +88,6 @@ if(isset($_POST['update_product'])){
 
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
    <!-- custom admin css file link  -->
    <link rel="stylesheet" href="css/admin_style.css">
     <link rel="icon" href="images/icon.png" type="image/png">
@@ -106,8 +105,8 @@ if(isset($_POST['update_product'])){
 
    <form action="" method="post" enctype="multipart/form-data">
       <h3>add product</h3>
-      <input type="text" name="name" class="box" placeholder="enter product name" required>
-      <input type="number" min="0" name="price" class="box" placeholder="enter product price" required>
+      <input type="text" name="name" class="box" placeholder="Enter product name" required>
+      <input type="number" min="0" name="price" class="box" placeholder="Enter product price" required>
       <input type="file" name="image" accept="image/jpg, image/jpeg, image/png" class="box" required>
       <input type="submit" value="add product" name="add_product" class="btn">
    </form>
@@ -122,11 +121,15 @@ if(isset($_POST['update_product'])){
 
    <div class="box-container">
 
-      <?php
-         $select_products = mysqli_query($conn, "SELECT * FROM `products`") or die('query failed');
-         if(mysqli_num_rows($select_products) > 0){
-            while($fetch_products = mysqli_fetch_assoc($select_products)){
-      ?>
+<?php
+   $products_per_page = 4;
+   $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+   $start_from = ($page - 1) * $products_per_page;
+
+   $select_products = mysqli_query($conn, "SELECT * FROM `products` LIMIT $start_from, $products_per_page") or die('query failed');
+   if(mysqli_num_rows($select_products) > 0){
+      while($fetch_products = mysqli_fetch_assoc($select_products)){
+?>
       <div class="box">
          <img src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
          <div class="name"><?php echo $fetch_products['name']; ?></div>
@@ -141,6 +144,32 @@ if(isset($_POST['update_product'])){
       }
       ?>
    </div>
+   <?php
+// Pagination controls start here
+$total_products_query = mysqli_query($conn, "SELECT COUNT(*) FROM `products`") or die('query failed');
+$total_products_row = mysqli_fetch_row($total_products_query);
+$total_products = $total_products_row[0];
+$total_pages = ceil($total_products / $products_per_page);
+
+if ($total_pages > 1) {
+    echo '<div class="pagination">';
+    if($page > 1){
+        echo '<a href="admin_products.php?page='.($page-1).'" class="btn">Prev</a>';
+    }
+    for($i = 1; $i <= $total_pages; $i++){
+        if($i == $page){
+            echo '<span class="btn" style="background:var(--blue);">'.$i.'</span>';
+        }else{
+            echo '<a href="admin_products.php?page='.$i.'" class="btn">'.$i.'</a>';
+        }
+    }
+    if($page < $total_pages){
+        echo '<a href="admin_products.php?page='.($page+1).'" class="btn">Next</a>';
+    }
+    echo '</div>';
+}
+?>
+</section>
 
 </section>
 

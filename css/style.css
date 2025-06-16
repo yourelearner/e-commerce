@@ -48,7 +48,6 @@ html{
 section{
    padding:3rem 2rem;
 }
-
 .empty{
    padding:1.5rem;
    text-align: center;
@@ -379,55 +378,86 @@ section{
    line-height: 1.5;
 }
 
-.products .box-container{
+/* Add or update these styles in css/style.css */
+
+.products .box-container {
    max-width: 1200px;
-   margin:0 auto;
+   margin: 0 auto;
    display: grid;
-   grid-template-columns: repeat(auto-fit, 30rem);
+   grid-template-columns: repeat(4, 1fr); /* 4 columns like admin */
+   gap: 1.5rem;
    align-items: flex-start;
-   gap:1.5rem;
    justify-content: center;
 }
 
-.products .box-container .box{
-   border-radius: .5rem;
-   background-color: var(--white);
-   box-shadow: var(--box-shadow);
-   padding:2rem;
+.products .box-container .box {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: flex-start;
    text-align: center;
-   border:var(--border);
+   padding: 2rem;
+   border-radius: .5rem;
+   border: var(--border);
+   box-shadow: var(--box-shadow);
+   background-color: var(--white);
    position: relative;
+   min-height: 38rem; /* adjust as needed */
 }
 
-.products .box-container .box .image{
-   height: 30rem;
-}
-
-.products .box-container .box .name{
-   padding:1rem 0;
-   font-size: 2rem;
-   color:var(--black);
-}
-
-.products .box-container .box .qty{
+.products .box-container .box .image {
    width: 100%;
-   padding:1.2rem 1.4rem;
+   height: 20rem;
+   object-fit: cover;
    border-radius: .5rem;
-   border:var(--border);
-   margin:1rem 0;
-   font-size: 2rem;
+   margin-bottom: 1rem;
 }
 
-.products .box-container .box .price{
+.products .box-container .box .name {
+   padding: 1rem 0;
+   font-size: 2rem;
+   color: var(--black);
+}
+
+.products .box-container .box .price {
    position: absolute;
-   top:1rem; left:1rem;
+   top: 1rem; left: 1rem;
    border-radius: .5rem;
-   padding:1rem;
+   padding: 1rem;
    font-size: 2.5rem;
-   color:var(--white);
+   color: var(--white);
    background-color: var(--red);
 }
 
+.products .box-container .box .qty {
+   width: 100%;
+   padding: 1.2rem 1.4rem;
+   border-radius: .5rem;
+   border: var(--border);
+   margin: 1rem 0;
+   font-size: 2rem;
+}
+
+.pagination {
+   text-align: center;
+   margin: 2rem 0;
+}
+.pagination .btn, .pagination span.btn {
+    display: inline-block;
+    margin: 0 0.2rem;
+    padding: 1rem 2rem;
+    font-size: 1.6rem;
+    border-radius: .5rem;
+    background: #753e26;
+    color: #fff;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+}
+.pagination .btn:hover {
+   background: #75360c;
+   color: #e6dada;  
+}
 .about .flex{
    max-width: 1200px;
    margin:0 auto;
@@ -738,6 +768,39 @@ section{
    pointer-events: none;
    opacity: .5;
    user-select: none;
+}
+.cart-table-container {
+   overflow-x: auto;
+   margin-bottom: 2rem;
+}
+.cart-table {
+   width: 100%;
+   border-collapse: collapse;
+   background: #fff;
+   box-shadow: var(--box-shadow);
+   border-radius: .5rem;
+   overflow: hidden;
+}
+.cart-table th, .cart-table td {
+   padding: 1rem;
+   text-align: center;
+   border-bottom: 1px solid #eee;
+   font-size: 1.6rem;
+}
+.cart-table th {
+   background: #c3a18b;
+   color: #333;
+}
+.cart-table tr:last-child td {
+   border-bottom: none;
+}
+.cart-table img {
+   display: block;
+   margin: 0 auto;
+   width: 60px;
+   height: 60px;
+   object-fit: cover;
+   border-radius: 5px;
 }
 
 .display-order{

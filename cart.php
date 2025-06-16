@@ -59,40 +59,66 @@ if(isset($_GET['delete_all'])){
 
    <h1 class="title">products added</h1>
 
-   <div class="box-container">
+   <?php
+      $grand_total = 0;
+      $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
+      if(mysqli_num_rows($select_cart) > 0){
+   ?>
+   <div class="cart-table-container">
+   <table class="cart-table">
+      <thead>
+         <tr>
+            <th>Remove</th>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Sub Total</th>
+         </tr>
+      </thead>
+      <tbody>
       <?php
-         $grand_total = 0;
-         $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
-         if(mysqli_num_rows($select_cart) > 0){
-            while($fetch_cart = mysqli_fetch_assoc($select_cart)){   
+         while($fetch_cart = mysqli_fetch_assoc($select_cart)){
       ?>
-      <div class="box">
-         <a href="cart.php?delete=<?php echo $fetch_cart['id']; ?>" class="fas fa-times" onclick="return confirm('delete this from cart?');"></a>
-         <img src="uploaded_img/<?php echo $fetch_cart['image']; ?>" alt="">
-         <div class="name"><?php echo $fetch_cart['name']; ?></div>
-         <div class="price">₱<?php echo $fetch_cart['price']; ?>/-</div>
-         <form action="" method="post">
-            <input type="hidden" name="cart_id" value="<?php echo $fetch_cart['id']; ?>">
-            <input type="number" min="1" name="cart_quantity" value="<?php echo $fetch_cart['quantity']; ?>">
-            <input type="submit" name="update_cart" value="update" class="option-btn">
-         </form>
-         <div class="sub-total"> sub total : <span>₱<?php echo $sub_total = ($fetch_cart['quantity'] * $fetch_cart['price']); ?>/-</span> </div>
-      </div>
+         <tr>
+            <td>
+               <a href="cart.php?delete=<?php echo $fetch_cart['id']; ?>" class="fas fa-times" onclick="return confirm('delete this from cart?');"></a>
+            </td>
+            <td>
+               <img src="uploaded_img/<?php echo $fetch_cart['image']; ?>" alt="" style="width:60px; height:60px; object-fit:cover; border-radius:5px;">
+            </td>
+            <td><?php echo $fetch_cart['name']; ?></td>
+            <td>₱<?php echo $fetch_cart['price']; ?>/-</td>
+            <td>
+               <form action="" method="post" style="display:inline;">
+                  <input type="hidden" name="cart_id" value="<?php echo $fetch_cart['id']; ?>">
+                  <input type="number" min="1" name="cart_quantity" value="<?php echo $fetch_cart['quantity']; ?>" style="width:60px;">
+                  <input type="submit" name="update_cart" value="update" class="option-btn" style="padding:0.5rem 1rem; font-size:1.2rem;">
+               </form>
+            </td>
+            <td>
+               ₱<?php echo $sub_total = ($fetch_cart['quantity'] * $fetch_cart['price']); ?>/-
+            </td>
+         </tr>
       <?php
-      $grand_total += $sub_total;
+         $grand_total += $sub_total;
          }
+      ?>
+      </tbody>
+   </table>
+   </div>
+   <?php
       }else{
          echo '<p class="empty">your cart is empty</p>';
       }
-      ?>
-   </div>
+   ?>
 
    <div style="margin-top: 2rem; text-align:center;">
       <a href="cart.php?delete_all" class="delete-btn <?php echo ($grand_total > 1)?'':'disabled'; ?>" onclick="return confirm('delete all from cart?');">delete all</a>
    </div>
 
    <div class="cart-total">
-      <p>grand total : <span>₱<?php echo $grand_total; ?>/-</span></p>
+      <p>Grand total : <span>₱<?php echo $grand_total; ?>/-</span></p>
       <div class="flex">
          <a href="shop.php" class="option-btn">continue shopping</a>
          <a href="checkout.php" class="btn <?php echo ($grand_total > 1)?'':'disabled'; ?>">proceed to checkout</a>

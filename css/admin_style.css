@@ -46,7 +46,7 @@ html{
 }
 
 body{
-   background-color: var(--light-bg);
+   background-color: #c3a18b;
 }
 
 section{
@@ -246,7 +246,6 @@ section{
 #menu-btn{
    display: none;
 }
-
 .dashboard .box-container{
    display: grid;
    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
@@ -309,14 +308,14 @@ section{
    border:var(--border);
 }
 
-.show-products .box-container{
-   display: grid;
-   grid-template-columns: repeat(auto-fit, 30rem);
-   justify-content: center;
-   gap:1.5rem;
-   max-width: 1200px;
-   margin:0 auto;
-   align-items: flex-start;
+.show-products .box-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-content: center;
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: flex-start;
 }
 
 .show-products{
@@ -324,6 +323,10 @@ section{
 }
 
 .show-products .box-container .box{
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
    text-align: center;
    padding:2rem;
    border-radius: .5rem;
@@ -333,7 +336,10 @@ section{
 }
 
 .show-products .box-container .box img{
+   width: 100%;         
    height: 30rem;
+   object-fit: cover;     
+   border-radius: .5rem;
 }
 
 .show-products .box-container .box .name{
@@ -346,6 +352,26 @@ section{
    padding:1rem 0;
    font-size: 2.5rem;
    color:var(--red);
+}
+.pagination {
+    text-align: center;
+    margin: 2rem 0;
+}
+.pagination .btn, .pagination span.btn {
+    display: inline-block;
+    margin: 0 0.2rem;
+    padding: 1rem 2rem;
+    font-size: 1.6rem;
+    border-radius: .5rem;
+    background: #753e26;
+    color: #fff;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+}
+.pagination .btn:hover {
+   background: #75360c;
+   color: #e6dada;  
 }
 
 .edit-product-form{

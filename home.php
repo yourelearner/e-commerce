@@ -68,7 +68,11 @@ if(isset($_POST['add_to_cart'])){
    <div class="box-container">
 
       <?php  
-         $select_products = mysqli_query($conn, "SELECT * FROM `products` LIMIT 6") or die('query failed');
+         $products_per_page = 4;
+         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+         $start_from = ($page - 1) * $products_per_page;
+
+         $select_products = mysqli_query($conn, "SELECT * FROM `products` LIMIT $start_from, $products_per_page") or die('query failed');
          if(mysqli_num_rows($select_products) > 0){
             while($fetch_products = mysqli_fetch_assoc($select_products)){
       ?>
@@ -90,9 +94,31 @@ if(isset($_POST['add_to_cart'])){
       ?>
    </div>
 
-   <div class="load-more" style="margin-top: 2rem; text-align:center">
-      <a href="shop.php" class="option-btn">load more</a>
-   </div>
+<?php
+// Pagination controls
+$total_products_query = mysqli_query($conn, "SELECT COUNT(*) FROM `products`") or die('query failed');
+$total_products_row = mysqli_fetch_row($total_products_query);
+$total_products = $total_products_row[0];
+$total_pages = ceil($total_products / $products_per_page);
+
+if ($total_pages > 1) {
+    echo '<div class="pagination">';
+    if($page > 1){
+        echo '<a href="shop.php?page='.($page-1).'" class="btn">Prev</a>';
+    }
+    for($i = 1; $i <= $total_pages; $i++){
+        if($i == $page){
+            echo '<span class="btn" style="background:#753e26;">'.$i.'</span>';
+        }else{
+            echo '<a href="shop.php?page='.$i.'" class="btn">'.$i.'</a>';
+        }
+    }
+    if($page < $total_pages){
+        echo '<a href="shop.php?page='.($page+1).'" class="btn">Next</a>';
+    }
+    echo '</div>';
+}
+?>
 
 </section>
 

@@ -16,11 +16,19 @@ if(isset($_POST['order_btn'])){
    $number = $_POST['number'];
    $email = mysqli_real_escape_string($conn, $_POST['email']);
    $method = mysqli_real_escape_string($conn, $_POST['method']);
-   $address = mysqli_real_escape_string($conn, 'flat no. '. $_POST['flat'].', '. $_POST['street'].', '. $_POST['city'].', '. $_POST['country'].' - '. $_POST['pin_code']);
+
+   // Safely get address fields to avoid undefined array key warnings
+   $flat = isset($_POST['flat']) ? $_POST['flat'] : '';
+   $street = isset($_POST['street']) ? $_POST['street'] : '';
+   $city = isset($_POST['city']) ? $_POST['city'] : '';
+   $country = isset($_POST['country']) ? $_POST['country'] : '';
+   $pin_code = isset($_POST['pin_code']) ? $_POST['pin_code'] : '';
+
+   $address = mysqli_real_escape_string($conn, 'flat no. '. $flat .', '. $street .', '. $city .', '. $country .' - '. $pin_code);
    $placed_on = date('d-M-Y');
 
    $cart_total = 0;
-   $cart_products[] = '';
+   $cart_products = array();
 
    $cart_query = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
    if(mysqli_num_rows($cart_query) > 0){
@@ -100,50 +108,48 @@ if(isset($_POST['order_btn'])){
 <section class="checkout">
 
    <form action="" method="post">
-      <h3>place your order</h3>
+      <h3>Place your order</h3>
       <div class="flex">
          <div class="inputBox">
-            <span>your name :</span>
-            <input type="text" name="name" required placeholder="enter your name">
+            <span>Fullname</span>
+            <input type="text" name="name" required placeholder="Enter your name">
          </div>
          <div class="inputBox">
-            <span>your number :</span>
-            <input type="number" name="number" required placeholder="enter your number">
+            <span>Contact number</span>
+            <input type="number" name="number" required placeholder="Enter your number">
          </div>
          <div class="inputBox">
-            <span>your email :</span>
-            <input type="email" name="email" required placeholder="enter your email">
+            <span>Email</span>
+            <input type="email" name="email" required placeholder="Enter your email">
          </div>
          <div class="inputBox">
-            <span>payment method :</span>
+            <span>Payment method</span>
             <select name="method">
-               <option value="cash on delivery">cash on delivery</option>
-               <option value="credit card">credit card</option>
-               <option value="gcash">gcash</option>
+               <option value="cash on delivery">Cash on delivery</option>
             </select>
          </div>
          <div class="inputBox">
-            <span>address line 01 :</span>
+            <span>House No.</span>
             <input type="text" min="blk" name="lot" required placeholder="e.g. blk lot.">
          </div>
          <div class="inputBox">
-            <span>address line 01 :</span>
+            <span>Barangay/Subdivision/Village</span>
             <input type="text" name="street" required placeholder="e.g. street name">
          </div>
          <div class="inputBox">
-            <span>city :</span>
+            <span>City</span>
             <input type="text" name="city" required placeholder="e.g. bacoor">
          </div>
          <div class="inputBox">
-            <span>state :</span>
+            <span>State</span>
             <input type="text" name="state" required placeholder="e.g. cavite">
          </div>
          <div class="inputBox">
-            <span>country :</span>
+            <span>Country</span>
             <input type="text" name="country" required placeholder="e.g. philippines">
          </div>
          <div class="inputBox">
-            <span>pin code :</span>
+            <span>Zipcode</span>
             <input type="number" min="0" name="pin_code" required placeholder="e.g. 4102">
          </div>
       </div>

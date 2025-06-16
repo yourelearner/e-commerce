@@ -64,17 +64,17 @@ if(isset($message)){
 <div class="form-container">
 
    <form action="" method="post">
-      <h3>register now</h3>
-      <input type="text" name="name" placeholder="enter your name" required class="box">
-      <input type="email" name="email" placeholder="enter your email" required class="box">
-      <input type="password" name="password" placeholder="enter your password" required class="box">
-      <input type="password" name="cpassword" placeholder="confirm your password" required class="box">
+      <h3>Register</h3>
+      <input type="text" name="name" placeholder="Enter your name" required class="box">
+      <input type="email" name="email" placeholder="Enter your email" required class="box">
+      <input type="password" name="password" placeholder="Enter your password" required class="box">
+      <input type="password" name="cpassword" placeholder="Confirm your password" required class="box">
       <select name="user_type" class="box">
-         <option value="user">user</option>
-         <option value="admin">admin</option>
+         <option value="user">User</option>
+         <option value="admin">Admin</option>
       </select>
-      <input type="submit" name="submit" value="register now" class="btn">
-      <p>already have an account? <a href="login.php">login now</a></p>
+      <input type="submit" name="submit" value="Submit" class="btn">
+      <p>Already have an account? <a href="login.php">Login now</a></p>
    </form>
 
 </div>
