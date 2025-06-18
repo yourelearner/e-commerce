@@ -44,19 +44,18 @@ if(isset($_POST['order_btn'])){
    $order_query = mysqli_query($conn, "SELECT * FROM `orders` WHERE name = '$name' AND number = '$number' AND email = '$email' AND method = '$method' AND address = '$address' AND total_products = '$total_products' AND total_price = '$cart_total'") or die('query failed');
 
    if($cart_total == 0){
-      $message[] = 'your cart is empty';
+      $message[] = 'Your cart is empty';
    }else{
       if(mysqli_num_rows($order_query) > 0){
-         $message[] = 'order already placed!'; 
+         $message[] = 'Order already placed!'; 
       }else{
          mysqli_query($conn, "INSERT INTO `orders`(user_id, name, number, email, method, address, total_products, total_price, placed_on) VALUES('$user_id', '$name', '$number', '$email', '$method', '$address', '$total_products', '$cart_total', '$placed_on')") or die('query failed');
-         $message[] = 'order placed successfully!';
+         $message[] = 'Order placed successfully!';
          mysqli_query($conn, "DELETE FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
       }
    }
-   
-}
 
+}
 ?>
 
 <!DOCTYPE html>
@@ -79,9 +78,10 @@ if(isset($_POST['order_btn'])){
    
 <?php include 'header.php'; ?>
 
+
 <div class="heading">
    <h3>checkout</h3>
-   <p> <a href="home.php">home</a> / checkout </p>
+   <p> <a href="home.php">Home</a> / Checkout </p>
 </div>
 
 <section class="display-order">
@@ -94,14 +94,14 @@ if(isset($_POST['order_btn'])){
             $total_price = ($fetch_cart['price'] * $fetch_cart['quantity']);
             $grand_total += $total_price;
    ?>
-   <p> <?php echo $fetch_cart['name']; ?> <span>(<?php echo '$'.$fetch_cart['price'].'/-'.' x '. $fetch_cart['quantity']; ?>)</span> </p>
+   <p> <?php echo $fetch_cart['name']; ?> <span>(<?php echo '₱'.$fetch_cart['price'].'/-'.' x '. $fetch_cart['quantity']; ?>)</span> </p>
    <?php
       }
    }else{
-      echo '<p class="empty">your cart is empty</p>';
+      echo '<p class="empty">Your cart is empty</p>';
    }
    ?>
-   <div class="grand-total"> grand total : <span>$<?php echo $grand_total; ?>/-</span> </div>
+   <div class="grand-total"> Grand total : <span>₱<?php echo $grand_total; ?>/-</span> </div>
 
 </section>
 

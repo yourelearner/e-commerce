@@ -10,6 +10,20 @@ if(!isset($user_id)){
    header('location:login.php');
 }
 
+// PAGINATION LOGIC
+$orders_per_page = 5;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$start_from = ($page - 1) * $orders_per_page;
+
+// Get total orders count
+$total_orders_query = mysqli_query($conn, "SELECT COUNT(*) FROM `orders` WHERE user_id = '$user_id'") or die('query failed');
+$total_orders_row = mysqli_fetch_row($total_orders_query);
+$total_orders = $total_orders_row[0];
+$total_pages = ceil($total_orders / $orders_per_page);
+
+// Fetch paginated orders
+$order_query = mysqli_query($conn, "SELECT * FROM `orders` WHERE user_id = '$user_id' ORDER BY id DESC LIMIT $start_from, $orders_per_page") or die('query failed');
+
 ?>
 
 <!DOCTYPE html>
@@ -41,40 +55,61 @@ if(!isset($user_id)){
 
    <h1 class="title">placed orders</h1>
 
-   <div class="box-container">
-
-      <?php
-         $order_query = mysqli_query($conn, "SELECT * FROM `orders` WHERE user_id = '$user_id'") or die('query failed');
-         if(mysqli_num_rows($order_query) > 0){
-            while($fetch_orders = mysqli_fetch_assoc($order_query)){
-      ?>
-      <div class="box">
-         <p> placed on : <span><?php echo $fetch_orders['placed_on']; ?></span> </p>
-         <p> name : <span><?php echo $fetch_orders['name']; ?></span> </p>
-         <p> number : <span><?php echo $fetch_orders['number']; ?></span> </p>
-         <p> email : <span><?php echo $fetch_orders['email']; ?></span> </p>
-         <p> address : <span><?php echo $fetch_orders['address']; ?></span> </p>
-         <p> payment method : <span><?php echo $fetch_orders['method']; ?></span> </p>
-         <p> your orders : <span><?php echo $fetch_orders['total_products']; ?></span> </p>
-         <p> total price : <span>$<?php echo $fetch_orders['total_price']; ?>/-</span> </p>
-         <p> payment status : <span style="color:<?php if($fetch_orders['payment_status'] == 'pending'){ echo 'red'; }else{ echo 'green'; } ?>;"><?php echo $fetch_orders['payment_status']; ?></span> </p>
-         </div>
-      <?php
-       }
-      }else{
-         echo '<p class="empty">no orders placed yet!</p>';
-      }
-      ?>
+   <div class="table-container">
+      <table class="cart-table">
+         <thead>
+            <tr>
+               <th>Placed On</th>
+               <th>Name</th>
+               <th>Number</th>
+               <th>Email</th>
+               <th>Address</th>
+               <th>Payment Method</th>
+               <th>Your Orders</th>
+               <th>Total Price</th>
+               <th>Payment Status</th>
+            </tr>
+         </thead>
+         <tbody>
+         <?php
+            if(mysqli_num_rows($order_query) > 0){
+               while($fetch_orders = mysqli_fetch_assoc($order_query)){
+         ?>
+            <tr>
+               <td><?php echo $fetch_orders['placed_on']; ?></td>
+               <td><?php echo $fetch_orders['name']; ?></td>
+               <td><?php echo $fetch_orders['number']; ?></td>
+               <td><?php echo $fetch_orders['email']; ?></td>
+               <td><?php echo $fetch_orders['address']; ?></td>
+               <td><?php echo $fetch_orders['method']; ?></td>
+               <td><?php echo $fetch_orders['total_products']; ?></td>
+               <td>₱<?php echo $fetch_orders['total_price']; ?></td>
+               <td style="color:<?php echo ($fetch_orders['payment_status'] == 'pending') ? 'red' : 'green'; ?>">
+                  <?php echo $fetch_orders['payment_status']; ?>
+               </td>
+            </tr>
+         <?php
+               }
+            }else{
+               echo '<tr><td colspan="9" class="empty">no orders placed yet!</td></tr>';
+            }
+         ?>
+         </tbody>
+      </table>
    </div>
+   <?php if($total_pages > 1): ?>
+   <div class="pagination">
+      <?php for($i = 1; $i <= $total_pages; $i++): ?>
+         <?php if($i == $page): ?>
+            <span class="btn"><?php echo $i; ?></span>
+         <?php else: ?>
+            <a href="?page=<?php echo $i; ?>" class="btn"><?php echo $i; ?></a>
+         <?php endif; ?>
+      <?php endfor; ?>
+   </div>
+   <?php endif; ?>
 
 </section>
-
-
-
-
-
-
-
 
 <?php include 'footer.php'; ?>
 

@@ -42,22 +42,39 @@ if(isset($_GET['delete'])){
 
    <h1 class="title"> user accounts </h1>
 
-   <div class="box-container">
-      <?php
-         $select_users = mysqli_query($conn, "SELECT * FROM `users`") or die('query failed');
-         while($fetch_users = mysqli_fetch_assoc($select_users)){
-      ?>
-      <div class="box">
-         <p> user id : <span><?php echo $fetch_users['id']; ?></span> </p>
-         <p> username : <span><?php echo $fetch_users['name']; ?></span> </p>
-         <p> email : <span><?php echo $fetch_users['email']; ?></span> </p>
-         <p> user type : <span style="color:<?php if($fetch_users['user_type'] == 'admin'){ echo 'var(--orange)'; } ?>"><?php echo $fetch_users['user_type']; ?></span> </p>
-         <a href="admin_users.php?delete=<?php echo $fetch_users['id']; ?>" onclick="return confirm('delete this user?');" class="delete-btn">delete user</a>
-      </div>
-      <?php
-         };
-      ?>
-   </div>
+<div class="table-container">
+   <table class="cart-table">
+      <thead>
+         <tr>
+            <th>User ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>User Type</th>
+            <th>Action</th>
+         </tr>
+      </thead>
+      <tbody>
+         <?php
+            $select_users = mysqli_query($conn, "SELECT * FROM `users`") or die('query failed');
+            while($fetch_users = mysqli_fetch_assoc($select_users)){
+         ?>
+         <tr>
+            <td><?php echo $fetch_users['id']; ?></td>
+            <td><?php echo $fetch_users['name']; ?></td>
+            <td><?php echo $fetch_users['email']; ?></td>
+            <td>
+               <span style="color:<?php if($fetch_users['user_type'] == 'admin'){ echo 'var(--orange)'; } ?>">
+                  <?php echo $fetch_users['user_type']; ?>
+               </span>
+            </td>
+            <td>
+               <a href="admin_users.php?delete=<?php echo $fetch_users['id']; ?>" onclick="return confirm('delete this user?');" class="delete-btn">delete user</a>
+            </td>
+         </tr>
+         <?php } ?>
+      </tbody>
+   </table>
+</div>
 
 </section>
 

@@ -22,7 +22,7 @@ if(isset($_POST['add_product'])){
    $select_product_name = mysqli_query($conn, "SELECT name FROM `products` WHERE name = '$name'") or die('query failed');
 
    if(mysqli_num_rows($select_product_name) > 0){
-      $message[] = 'product name already added';
+      $message[] = 'Product name already added';
    }else{
       $add_product_query = mysqli_query($conn, "INSERT INTO `products`(name, price, image) VALUES('$name', '$price', '$image')") or die('query failed');
 
@@ -31,10 +31,10 @@ if(isset($_POST['add_product'])){
             $message[] = 'image size is too large';
          }else{
             move_uploaded_file($image_tmp_name, $image_folder);
-            $message[] = 'product added successfully!';
+            $message[] = 'Product added successfully!';
          }
       }else{
-         $message[] = 'product could not be added!';
+         $message[] = 'Product could not be added!';
       }
    }
 }
@@ -140,7 +140,7 @@ if(isset($_POST['update_product'])){
       <?php
          }
       }else{
-         echo '<p class="empty">no products added yet!</p>';
+         echo '<p class="empty">No products added yet!</p>';
       }
       ?>
    </div>
