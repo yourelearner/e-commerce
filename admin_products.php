@@ -130,13 +130,16 @@ if(isset($_POST['update_product'])){
    if(mysqli_num_rows($select_products) > 0){
       while($fetch_products = mysqli_fetch_assoc($select_products)){
 ?>
-      <div class="box">
-         <img src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
+   <div class="box">
+      <img src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
          <div class="name"><?php echo $fetch_products['name']; ?></div>
          <div class="price">₱<?php echo $fetch_products['price']; ?>/-</div>
+         <div class="stock" style="color: <?php echo $fetch_products['stock'] == 0 ? '#c0392b' : '#27ae60'; ?>; font-weight: bold;">
+      <?php echo $fetch_products['stock'] == 0 ? 'Out of Stock' : 'Stock: ' . $fetch_products['stock']; ?>
+   </div>
          <a href="admin_products.php?update=<?php echo $fetch_products['id']; ?>" class="option-btn">update</a>
          <a href="admin_products.php?delete=<?php echo $fetch_products['id']; ?>" class="delete-btn" onclick="return confirm('delete this product?');">delete</a>
-      </div>
+   </div>
       <?php
          }
       }else{

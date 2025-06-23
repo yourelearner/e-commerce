@@ -403,13 +403,16 @@ section{
    max-width: 1200px;
    margin: 0 auto;
    display: grid;
-   grid-template-columns: repeat(4, 1fr); /* 4 columns like admin */
+   grid-template-columns: repeat(4, 1fr);
    gap: 1.5rem;
    align-items: flex-start;
    justify-content: center;
 }
 
 .products .box-container .box {
+   width: 250px;
+   min-height: 420px;
+   max-height: 420px;
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -421,21 +424,32 @@ section{
    box-shadow: var(--box-shadow);
    background-color: var(--white);
    position: relative;
-   min-height: 38rem; /* adjust as needed */
+   box-sizing: border-box;
+   overflow: hidden;
 }
 
 .products .box-container .box .image {
    width: 100%;
-   height: 20rem;
+   height: 190px;           /* Larger, fixed height for all images */
    object-fit: cover;
    border-radius: .5rem;
    margin-bottom: 1rem;
 }
 
 .products .box-container .box .name {
-   padding: 1rem 0;
-   font-size: 2rem;
+   height: 48px;            /* Fixed height for 2 lines */
+   overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-line-clamp: 2;   /* Show up to 2 lines */
+   -webkit-box-orient: vertical;
+   padding: 0.5rem 0;
+   font-size: 1.6rem;       /* Slightly smaller for long names */
    color: var(--black);
+   font-weight: bold;
+   width: 100%;
+   box-sizing: border-box;
+   line-height: 1.2;
 }
 
 .products .box-container .box .price {

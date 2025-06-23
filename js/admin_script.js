@@ -1,22 +1,32 @@
 let navbar = document.querySelector(".header .navbar");
 let accountBox = document.querySelector(".header .account-box");
 
-document.querySelector("#menu-btn").onclick = () => {
-  navbar.classList.toggle("active");
-  accountBox.classList.remove("active");
-};
+const menuBtn = document.querySelector("#menu-btn");
+if (menuBtn) {
+  menuBtn.onclick = () => {
+    if (navbar) navbar.classList.toggle("active");
+    if (accountBox) accountBox.classList.remove("active");
+  };
+}
 
-document.querySelector("#user-btn").onclick = () => {
-  accountBox.classList.toggle("active");
-  navbar.classList.remove("active");
-};
+const userBtn = document.querySelector("#user-btn");
+if (userBtn) {
+  userBtn.onclick = () => {
+    if (accountBox) accountBox.classList.toggle("active");
+    if (navbar) navbar.classList.remove("active");
+  };
+}
 
 window.onscroll = () => {
-  navbar.classList.remove("active");
-  accountBox.classList.remove("active");
+  if (navbar) navbar.classList.remove("active");
+  if (accountBox) accountBox.classList.remove("active");
 };
 
-document.querySelector("#close-update").onclick = () => {
-  document.querySelector(".edit-product-form").style.display = "none";
-  window.location.href = "admin_products.php";
-};
+const closeUpdate = document.querySelector("#close-update");
+if (closeUpdate) {
+  closeUpdate.onclick = () => {
+    const editForm = document.querySelector(".edit-product-form");
+    if (editForm) editForm.style.display = "none";
+    window.location.href = "admin_products.php";
+  };
+}

@@ -128,12 +128,19 @@ if(isset($_POST['add_to_cart'])){
       <img class="image" src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
       <div class="name"><?php echo $fetch_products['name']; ?></div>
       <div class="price">₱<?php echo $fetch_products['price']; ?>/-</div>
-      <input type="number" min="1" name="product_quantity" value="1" class="qty">
+   <?php if ($fetch_products['stock'] == 0): ?>
+      <div class="stock" style="color: #c0392b; font-weight: bold;">Out of Stock</div>
+      <input type="number" min="1" name="product_quantity" value="1" class="qty" disabled>
+      <input type="submit" value="add to cart" name="add_to_cart" class="btn" disabled style="background:#ccc;cursor:not-allowed;">
+  <?php else: ?>
+      <div class="stock" style="color: #27ae60; font-weight: bold;">Stock: <?php echo $fetch_products['stock']; ?></div>
+      <input type="number" min="1" max="<?php echo $fetch_products['stock']; ?>" name="product_quantity" value="1" class="qty">
+      <input type="submit" value="add to cart" name="add_to_cart" class="btn">
+  <?php endif; ?>
       <input type="hidden" name="product_name" value="<?php echo $fetch_products['name']; ?>">
       <input type="hidden" name="product_price" value="<?php echo $fetch_products['price']; ?>">
       <input type="hidden" name="product_image" value="<?php echo $fetch_products['image']; ?>">
-      <input type="submit" value="add to cart" name="add_to_cart" class="btn">
-     </form>
+      </form>
       <?php
          }
       }else{
