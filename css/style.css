@@ -397,7 +397,6 @@ section{
    line-height: 1.5;
 }
 
-/* Add or update these styles in css/style.css */
 
 .products .box-container {
    max-width: 1200px;
@@ -430,21 +429,21 @@ section{
 
 .products .box-container .box .image {
    width: 100%;
-   height: 190px;           /* Larger, fixed height for all images */
+   height: 190px;      
    object-fit: cover;
    border-radius: .5rem;
    margin-bottom: 1rem;
 }
 
 .products .box-container .box .name {
-   height: 48px;            /* Fixed height for 2 lines */
+   height: 48px;      
    overflow: hidden;
    text-overflow: ellipsis;
    display: -webkit-box;
-   -webkit-line-clamp: 2;   /* Show up to 2 lines */
+   -webkit-line-clamp: 2; 
    -webkit-box-orient: vertical;
    padding: 0.5rem 0;
-   font-size: 1.6rem;       /* Slightly smaller for long names */
+   font-size: 1.6rem;     
    color: var(--black);
    font-weight: bold;
    width: 100%;

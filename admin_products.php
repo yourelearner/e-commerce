@@ -130,16 +130,18 @@ if(isset($_POST['update_product'])){
    if(mysqli_num_rows($select_products) > 0){
       while($fetch_products = mysqli_fetch_assoc($select_products)){
 ?>
-   <div class="box">
-      <img src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
-         <div class="name"><?php echo $fetch_products['name']; ?></div>
-         <div class="price">₱<?php echo $fetch_products['price']; ?>/-</div>
-         <div class="stock" style="color: <?php echo $fetch_products['stock'] == 0 ? '#c0392b' : '#27ae60'; ?>; font-weight: bold;">
+<div class="box">
+   <img src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
+   <div class="name"><?php echo $fetch_products['name']; ?></div>
+   <div class="price">₱<?php echo $fetch_products['price']; ?>/-</div>
+   <div class="stock" style="color: <?php echo $fetch_products['stock'] == 0 ? '#c0392b' : '#27ae60'; ?>; font-weight: bold;">
       <?php echo $fetch_products['stock'] == 0 ? 'Out of Stock' : 'Stock: ' . $fetch_products['stock']; ?>
    </div>
-         <a href="admin_products.php?update=<?php echo $fetch_products['id']; ?>" class="option-btn">update</a>
-         <a href="admin_products.php?delete=<?php echo $fetch_products['id']; ?>" class="delete-btn" onclick="return confirm('delete this product?');">delete</a>
+   <div class="card-actions">
+      <a href="admin_products.php?update=<?php echo $fetch_products['id']; ?>" class="option-btn">update</a>
+      <a href="admin_products.php?delete=<?php echo $fetch_products['id']; ?>" class="delete-btn" onclick="return confirm('delete this product?');">delete</a>
    </div>
+</div>
       <?php
          }
       }else{
@@ -185,16 +187,18 @@ if ($total_pages > 1) {
          if(mysqli_num_rows($update_query) > 0){
             while($fetch_update = mysqli_fetch_assoc($update_query)){
    ?>
-   <form action="" method="post" enctype="multipart/form-data">
-      <input type="hidden" name="update_p_id" value="<?php echo $fetch_update['id']; ?>">
-      <input type="hidden" name="update_old_image" value="<?php echo $fetch_update['image']; ?>">
-      <img src="uploaded_img/<?php echo $fetch_update['image']; ?>" alt="">
-      <input type="text" name="update_name" value="<?php echo $fetch_update['name']; ?>" class="box" required placeholder="enter product name">
-      <input type="number" name="update_price" value="<?php echo $fetch_update['price']; ?>" min="0" class="box" required placeholder="enter product price">
-      <input type="file" class="box" name="update_image" accept="image/jpg, image/jpeg, image/png">
+<form action="" method="post" enctype="multipart/form-data">
+   <input type="hidden" name="update_p_id" value="<?php echo $fetch_update['id']; ?>">
+   <input type="hidden" name="update_old_image" value="<?php echo $fetch_update['image']; ?>">
+   <img src="uploaded_img/<?php echo $fetch_update['image']; ?>" alt="">
+   <input type="text" name="update_name" value="<?php echo $fetch_update['name']; ?>" class="box" required placeholder="enter product name">
+   <input type="number" name="update_price" value="<?php echo $fetch_update['price']; ?>" min="0" class="box" required placeholder="enter product price">
+   <input type="file" class="box" name="update_image" accept="image/jpg, image/jpeg, image/png">
+   <div class="update-actions">
       <input type="submit" value="update" name="update_product" class="btn">
-      <input type="reset" value="cancel" id="close-update" class="option-btn">
-   </form>
+      <input type="reset" value="cancel" id="close-update" class="cancel-btn">
+   </div>
+</form>
    <?php
          }
       }
